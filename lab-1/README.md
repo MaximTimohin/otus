@@ -13,18 +13,19 @@
  |----|------|--------|-------|
  |  3 | 192.168.3.1 |Sw-L3-R1|Ethernet0/0.3|
  |  3 | 192.168.3.11 |Sw-1|Vlan3|
- |  3 | 192.168.3.4 |Client-1 - Laptop|em0|
+ |  3 | 192.168.3.3 |Client-1|e0|
  |  4 | 192.168.4.1 |Sw-L3-R1|Ethernet0/0.4|
  |  4 | 192.168.4.11 |Sw-2|Vlan4|
- |  4 | 192.168.4.4 |Client-2 Laptop|em0|
+ |  4 | 192.168.4.3 |Client-2|e0|
 
 ###### Настройка L3 маршрутизатора Sw-L3-R1
 <details>
-  <summary>Включаем routing</summary>
+  <summary>основные настройки</summary>
 
 ```
-Sw-L3-R1(config)#ip routing
-Sw-L3-R1(config)#end
+no ip domain lookup
+ip routing
+end
 ```
 </details>
 
@@ -46,6 +47,7 @@ interface Ethernet0/0.3
  description vlan3
  encapsulation dot1Q 3
  ip address 192.168.3.1 255.255.255.0
+ no shutdown
 ```
 </details>
 <details>
@@ -56,5 +58,115 @@ interface Ethernet0/0.4
  description vlan4
  encapsulation dot1Q 4
  ip address 192.168.4.1 255.255.255.0
+ no shutdown
 ```
 </details>
+
+###### Настройка L2 коммутатора Sw-1
+<details>
+  <summary>основные настройки</summary>
+
+```
+conf t
+hostname Sw1
+vlan 3
+vlan 4
+exit
+interface Vlan3
+ ip address 192.168.3.11 255.255.255.0
+ no shutdown
+exit
+ip route 0.0.0.0 0.0.0.0 192.168.3.1
+```
+</details>
+<details>
+  <summary>Настраиваем интерфейс Ethernet0/0 идущий в Sw-L3-R1_e0/0</summary>
+
+```
+switchport trunk allowed vlan 3,4
+switchport trunk encapsulation dot1q
+switchport mode trunk
+no shutdown
+```
+</details>
+<details>
+  <summary>Настраиваем интерфейс Ethernet1/1 идущий в Sw-2_e1/1</summary>
+
+```
+switchport trunk allowed vlan 3,4
+switchport trunk encapsulation dot1q
+switchport mode trunk
+no shutdown
+```
+</details>
+<details>
+  <summary>Настраиваем интерфейс Ethernet2/1 идущий в Client-1_e0</summary>
+
+```
+description Clent1
+switchport access vlan 3
+switchport mode access
+no shutdown
+```
+</details>
+
+###### Настройка L2 коммутатора Sw-2
+<details>
+  <summary>основные настройки</summary>
+
+```
+conf t
+hostname Sw2
+vlan 3
+vlan 4
+exit
+interface Vlan3
+ ip address 192.168.3.12 255.255.255.0
+ no shutdown
+exit
+ip route 0.0.0.0 0.0.0.0 192.168.3.1
+```
+</details>
+<details>
+  <summary>Настраиваем интерфейс Ethernet1/1 идущий в Sw-1_e1/1</summary>
+
+```
+switchport trunk allowed vlan 3,4
+switchport trunk encapsulation dot1q
+switchport mode trunk
+no shutdown
+```
+</details>
+<details>
+  <summary>Настраиваем интерфейс Ethernet2/1 идущий в Client-2_e0</summary>
+
+```
+description Clent2
+switchport access vlan 4
+switchport mode access
+no shutdown
+```
+</details>
+
+###### Настройка Настраиваем компьютер Client-1
+
+<details>
+  <summary>интерфейс e0</summary>
+
+```
+Прописываем IP адрес 192.168.3.3 основной шлюз 192.168.3.1
+```
+</details>
+
+###### Настройка Настраиваем компьютер Client-2
+<details>
+  <summary>интерфейс e0</summary>
+
+```
+Прописываем IP адрес 192.168.4.3 основной шлюз 192.168.4.1
+```
+</details>
+
+###### Схема сети
+
+![alt-текст](/lab-1/lab-1.png "Схема lab-1")
