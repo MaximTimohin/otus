@@ -101,6 +101,7 @@ ip route 0.0.0.0 0.0.0.0 192.168.3.1
 switchport trunk allowed vlan 3,4
 switchport trunk encapsulation dot1q
 switchport mode trunk
+switchport nonegotiate
 no shutdown
 ```
 </details>
@@ -111,6 +112,7 @@ no shutdown
 switchport trunk allowed vlan 3,4
 switchport trunk encapsulation dot1q
 switchport mode trunk
+switchport nonegotiate
 no shutdown
 ```
 </details>
@@ -158,6 +160,7 @@ ip route 0.0.0.0 0.0.0.0 192.168.3.1
 switchport trunk allowed vlan 3,4
 switchport trunk encapsulation dot1q
 switchport mode trunk
+switchport nonegotiate
 no shutdown
 ```
 </details>
