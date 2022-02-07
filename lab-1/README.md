@@ -19,10 +19,16 @@
  |  4 | 192.168.4.3 |Client-2|e0|
 
 #### Настройка L3 маршрутизатора Sw-L3-R1
+ 1. Производим базовые настройки и включаем routing.
+ 2. Настраиваем интерфейсы.
+ 3. Настраивает IP на интерфейсы.
+ 3. Сохраняем настройки.
+
 <details>
   <summary>основные настройки</summary>
 
 ```
+hostname Sw-L3-R1
 no ip domain lookup
 ip routing
 end
@@ -59,10 +65,19 @@ interface Ethernet0/0.4
  encapsulation dot1Q 4
  ip address 192.168.4.1 255.255.255.0
  no shutdown
+ end
+ wr
 ```
 </details>
 
 #### Настройка L2 коммутатора Sw-1
+
+1. Производим базовые настройки.
+2. Настраиваем интерфейсы.
+3. Настраивает IP на интерфейсы.
+3. Сохраняем настройки.
+
+
 <details>
   <summary>основные настройки</summary>
 
@@ -107,10 +122,19 @@ description Clent1
 switchport access vlan 3
 switchport mode access
 no shutdown
+end
+wr
 ```
 </details>
 
 #### Настройка L2 коммутатора Sw-2
+
+1. Производим базовые настройки.
+2. Настраиваем интерфейсы.
+3. Настраивает IP на интерфейсы.
+3. Сохраняем настройки.
+
+
 <details>
   <summary>основные настройки</summary>
 
@@ -145,6 +169,8 @@ description Clent2
 switchport access vlan 4
 switchport mode access
 no shutdown
+end
+wr
 ```
 </details>
 
