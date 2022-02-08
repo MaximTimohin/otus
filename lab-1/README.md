@@ -75,7 +75,7 @@ interface Ethernet0/0.4
 1. Производим базовые настройки.
 2. Настраиваем интерфейсы.
 3. Настраивает IP на интерфейсы.
-3. Сохраняем настройки.
+3. Настраиваем не используемые порты и сохраняем настройки.
 
 
 <details>
@@ -86,6 +86,8 @@ conf t
 hostname Sw1
 vlan 3
 vlan 4
+vlan 7
+vlan 8
 exit
 interface Vlan3
  ip address 192.168.3.11 255.255.255.0
@@ -109,9 +111,10 @@ no shutdown
   <summary>Настраиваем интерфейс Ethernet1/1 идущий в Sw-2_e1/1</summary>
 
 ```
-switchport trunk allowed vlan 3,4
+switchport trunk allowed vlan 3,4,8
 switchport trunk encapsulation dot1q
 switchport mode trunk
+switchport trunk native vlan 8
 switchport nonegotiate
 no shutdown
 ```
@@ -125,6 +128,18 @@ switchport access vlan 3
 switchport mode access
 no shutdown
 end
+```
+</details>
+
+<details>
+  <summary>Настраиваем не используемые порты</summary>
+
+```
+conf t
+interface range e0/1-3, e1/0, e1/2-3, e2/0,e2/2-3, e3/0-3, e4/0-3, e5/0-3
+switchport mode access
+switchport access vlan 7
+end
 wr
 ```
 </details>
@@ -134,7 +149,7 @@ wr
 1. Производим базовые настройки.
 2. Настраиваем интерфейсы.
 3. Настраивает IP на интерфейсы.
-3. Сохраняем настройки.
+3. Настраиваем не используемые порты и сохраняем настройки.
 
 
 <details>
@@ -145,6 +160,8 @@ conf t
 hostname Sw2
 vlan 3
 vlan 4
+vlan 7
+vlan 8
 exit
 interface Vlan3
  ip address 192.168.3.12 255.255.255.0
@@ -157,9 +174,10 @@ ip route 0.0.0.0 0.0.0.0 192.168.3.1
   <summary>Настраиваем интерфейс Ethernet1/1 идущий в Sw-1_e1/1</summary>
 
 ```
-switchport trunk allowed vlan 3,4
+switchport trunk allowed vlan 3,4,8
 switchport trunk encapsulation dot1q
 switchport mode trunk
+switchport trunk native vlan 8
 switchport nonegotiate
 no shutdown
 ```
@@ -172,6 +190,17 @@ description Clent2
 switchport access vlan 4
 switchport mode access
 no shutdown
+end
+```
+</details>
+<details>
+  <summary>Настраиваем не используемые порты</summary>
+
+```
+conf t
+interface range e0/0, e0/2-3, e1/0, e1/2-3, e2/0, e2/2-3, e3/0-3, e4/0-3, e5/0-3
+switchport mode access
+switchport access vlan 7
 end
 wr
 ```
