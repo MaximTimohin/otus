@@ -66,11 +66,10 @@ no shut
 </details>
 
 <details>
-  <summary>Настраиваем spanning-tree и делем его root</summary>
+  <summary>Настраиваем spanning-tree</summary>
 
 ```
 spanning-tree mode rapid-pvst
-spanning-tree vlan 1 priority 0
 wr
 reload
 
@@ -381,7 +380,7 @@ Et2/1               Altn BLK 100       128.10   Shr
 ###### Ответы на вопросы:
 
 <details>
-<summary>Рассмотрим состояние коммутатора Sw-3(для ответа на некоторые вопросы)</summary>
+<summary>Рассмотрим состояние коммутатора Sw-1(для ответа на некоторые вопросы)</summary>
 
 1 - **Какие порты на коммутаторе являются корневыми портами.**
 ```
