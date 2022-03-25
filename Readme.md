@@ -9,4 +9,5 @@ Otus Labs
  -  [Настройка DHCPv4](/lab-3/v4.md)
  -  [Настройка DHCPv6 SLAAC](/lab-3/v6.md)
  -  [Архитектура сети IPv4/v6](/lab-4/README.md)
+ -  [Настройка policy based routing(PBR)](/lab-5/README.md)
   </details>
