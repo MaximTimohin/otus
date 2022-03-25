@@ -75,10 +75,9 @@ IPv6 сеть  20ff:aaaa:bbbb::/48
 ```
 </details>  
 
-#  
+<details>
+  <summary>Таблица распределения IP адресов на оборудовании</summary>
 
-
-#### Таблица распределения IP адресов на оборудовании.
 
 |location        | v4_network | v4_prefix|v6_network| comments|
 |:-----------:|:--------:|:---------------:|:-------------:|:---:|
@@ -95,7 +94,9 @@ IPv6 сеть  20ff:aaaa:bbbb::/48
 ||10.1.1.36|30|20ff:aaaa:bbbb:0109::/64|R12-SW5|
 ||10.1.1.40|30|20ff:aaaa:bbbb:010a::/64|R13-SW4|
 ||10.1.1.44|30|20ff:aaaa:bbbb:010b::/64|R13-SW5|
-||10.1.1.48|29|20ff:aaaa:bbbb:010c::/64|switches vlan10|
+||10.1.10.0|24|20ff:aaaa:bbbb:010c::/64|switches vlan10|
+||10.1.100.0|24|20ff:aaaa:bbbb:011::/64|Vlan200-SW2|
+||10.1.101.0|24|20ff:aaaa:bbbb:012::/64|Vlan300-SW3|
 ||10.1.255.0|24|20ff:aaaa:bbbb:010d::/64|VPC1|
 ||10.1.254.0|24|20ff:aaaa:bbbb:010e::/64|VPC7|
 |AS101|10.2.0.0|16|20ff:aaaa:bbbb:0200::/56||
@@ -125,3 +126,259 @@ IPv6 сеть  20ff:aaaa:bbbb::/48
 ||10.5.0.32|30|20ff:aaaa:bbbb:0507::/64|R16-R32|
 ||10.5.255.0|24|20ff:aaaa:bbbb:0508::/64|VPC8|
 ||10.5.254.0|24|20ff:aaaa:bbbb:0509::/64|VPC|
+
+
+</details>  
+
+#  
+
+##### Рассмотрим настройки оборудования AS1001 в качестве примера настройки всей сети.
+
+Внутри офиса 1000 предполагается следующая схема:
+
+Vlan10 управления свичами.  
+Vlan200 резервируется через STP и идёт до SW5  
+Vlan300 резервируется через STP и идёт до SW4  
+Access_l3 на свичах SW2(vlan35),SW3(vlan36) с адресом шлюза на свиче для клиентов.  
+
+
+
+<details>
+  <summary>Настройка L3 access на свичах SW2-SW3(часть конфигурации)</summary>
+
+#### SW2
+```
+### Настройка порта в сторону клиента
+interface Ethernet0/2
+ description VPC7
+ switchport access vlan 35
+
+### Включаем маршрутизацию
+ip routing
+ipv6 unicast-routing
+
+### Настраиваем влан для VPC7
+ interface Vlan35
+ ip address 10.1.255.1 255.255.255.0
+ ipv6 address FE80::2 link-local
+ ipv6 address 20FF:AAAA:BBBB:10E::1/64
+ ipv6 enable
+### Настраиваем влан для основного маршрута
+ interface Vlan200
+  ip address 10.1.100.2 255.255.255.0
+  ipv6 address FE80::2 link-local
+  ipv6 address 20FF:AAAA:BBBB:11::101/64
+  ipv6 enable
+
+### Не испольуемые порты:
+switchport access vlan 997
+ shutdown
+```
+
+#### SW3
+
+```
+
+### Настройка порта в сторону клиента
+interface Ethernet0/2
+ description VPC1
+ switchport access vlan 36
+
+### Включаем маршрутизацию
+ip routing
+ipv6 unicast-routing
+
+### Настраиваем влан для VPC
+interface Vlan36
+ ip address 10.1.255.1 255.255.255.0
+ ipv6 address FE80::3 link-local
+ ipv6 address 20FF:AAAA:BBBB:10D::1/64
+ ipv6 enable
+
+### Настраиваем влан для основного маршрута
+interface Vlan300
+ ip address 10.1.101.3 255.255.255.0
+ ipv6 address FE80::3 link-local
+ ipv6 address 20FF:AAAA:BBBB:12::101/64
+ ipv6 enable
+
+
+### Не испольуемые порты:
+switchport access vlan 997
+shutdown
+
+```
+</details>
+
+<details>
+  <summary>Настройка SW4(часть конфигурации)</summary>
+
+#### SW4
+```
+ip routing
+!
+ipv6 unicast-routing
+!
+interface Ethernet0/0
+ description SW3
+ switchport trunk allowed vlan 10,300
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+!
+interface Ethernet0/1
+ description SW2
+ switchport trunk allowed vlan 10,200
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+!
+interface Ethernet0/2
+ description SW3-e0/2
+ switchport trunk allowed vlan 10,200,300
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+!
+interface Ethernet0/3
+ description SW3-e0/3
+ switchport trunk allowed vlan 10,200,300
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+!
+interface Ethernet0/0
+ description SW3
+ switchport trunk allowed vlan 10,300
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+!
+interface Ethernet0/1
+ description SW2
+ switchport trunk allowed vlan 10,200
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+!
+interface Ethernet0/2
+ description SW3-e0/2
+ switchport trunk allowed vlan 10,200,300
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+!
+interface Ethernet0/3
+ description SW3-e0/3
+ switchport trunk allowed vlan 10,200,300
+ switchport trunk encapsulation dot1q
+ switchport trunk native vlan 999
+ switchport mode trunk
+!
+interface Vlan10
+ description management
+ ip address 10.1.10.4 255.255.255.0
+ ipv6 address FE80::4 link-local
+ ipv6 address 20FF:AAAA:BBBB:10C::52/64
+ ipv6 enable
+!
+interface Vlan11
+ ip address 10.1.1.34 255.255.255.252
+ ipv6 address FE80::4 link-local
+ ipv6 address 20FF:AAAA:BBBB:108::34/64
+ ipv6 enable
+!
+interface Vlan12
+ no ip address
+ ipv6 address FE80::4 link-local
+ ipv6 address 20FF:AAAA:BBBB:10A::42/64
+ ipv6 enable
+!
+interface Vlan200
+ ip address 10.1.100.253 255.255.255.0
+ ipv6 address FE80::4 link-local
+ ipv6 address 20FF:AAAA:BBBB:11::101/64
+ ipv6 enable
+!
+interface Vlan300
+ ip address 10.1.101.253 255.255.255.0
+ ipv6 address FE80::4 link-local
+ipv6 address 20FF:AAAA:BBBB:12::101/64
+ipv6 enable
+
+```
+
+ </details>
+
+ <details>
+   <summary>Настройка SW5(часть конфигурации)</summary>
+
+ #### SW5
+ ```
+ ip routing
+ !
+ ipv6 unicast-routing
+ !
+ interface Ethernet0/0
+  description SW2
+  switchport trunk allowed vlan 10,200
+  switchport trunk encapsulation dot1q
+  switchport trunk native vlan 999
+  switchport mode trunk
+ !
+ interface Ethernet0/1
+  description SW3
+  switchport trunk allowed vlan 10,300
+  switchport trunk encapsulation dot1q
+  switchport trunk native vlan 999
+  switchport mode trunk
+ !
+ interface Ethernet0/2
+  description SW4-e0/2
+  switchport trunk allowed vlan 10,200,300
+  switchport trunk encapsulation dot1q
+  switchport trunk native vlan 999
+  switchport mode trunk
+ !
+ interface Ethernet0/3
+  description SW4-e0/3
+  switchport trunk allowed vlan 10,200,300
+  switchport trunk encapsulation dot1q
+  switchport trunk native vlan 999
+  switchport mode trunk
+  !
+  interface Ethernet1/0
+ description R13
+ switchport trunk allowed vlan 12
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Ethernet1/1
+ description R12
+ switchport trunk allowed vlan 11
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+ interface Vlan10
+ description management
+ ip address 10.1.10.5 255.255.255.0
+ ipv6 address FE80::5 link-local
+ ipv6 address 20FF:AAAA:BBBB:10C::51/64
+ ipv6 enable
+ !
+ interface Vlan200
+ ip address 10.1.100.254 255.255.255.0
+ ipv6 address FE80::5 link-local
+ ipv6 address 20FF:AAAA:BBBB:11::100/64
+ ipv6 enable
+!
+interface Vlan300
+ ip address 10.1.101.254 255.255.255.0
+ ipv6 address FE80::5 link-local
+ipv6 address 20FF:AAAA:BBBB:12::100/64
+ipv6 enable
+!
+
+ ```
+
+  </details>
