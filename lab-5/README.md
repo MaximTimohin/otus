@@ -98,7 +98,7 @@ ip route 0.0.0.0 0.0.0.0 10.4.0.25 10 track 1
 ip route 0.0.0.0 0.0.0.0 10.4.0.21 20 track 2
 ip route 10.4.254.0 255.255.255.0 10.4.0.30
 ip route 10.4.255.0 255.255.255.0 10.4.0.30
-pv6 route 20FF:AAAA:BBBB:407::/64 20FF:AAAA:BBBB:406::29
+ipv6 route 20FF:AAAA:BBBB:407::/64 20FF:AAAA:BBBB:406::29
 ipv6 route 20FF:AAAA:BBBB:408::/64 20FF:AAAA:BBBB:406::29
 ```
 
@@ -106,12 +106,13 @@ ipv6 route 20FF:AAAA:BBBB:408::/64 20FF:AAAA:BBBB:406::29
 
 ```
 ip access-list extended VPC31
- permit ip host 10.4.254.31 host 10.4.0.13
+ permit ip host 10.4.254.31 any
 !
 route-map VPC31 permit 10
  match ip address VPC31
- set ip next-hop 10.4.0.21
-!         
+ set ip next-hop verify-availability 10.4.0.25 1 track 1
+ set ip next-hop verify-availability 10.4.0.21 2 track 2
+!
 route-map VPC31 deny 20
 ```
 
@@ -316,6 +317,19 @@ trace to 10.4.0.13, 8 hops max, press Ctrl+C to stop
  1   10.4.254.1   0.424 ms  0.296 ms  0.288 ms
  2   10.4.0.29   0.739 ms  0.593 ms  0.519 ms
  3   *10.4.0.21   1.710 ms (ICMP type:3, code:3, Destination port unreachable)  *
+  ```
+</details>
+
+<details>
+<summary>Трассировка до IP адреса на R26 с VPC31 при отключении линка до R25</summary>
+
+  ```
+  VPCS> trace 10.4.0.14
+  trace to 10.4.0.14, 8 hops max, press Ctrl+C to stop
+   1   10.4.254.1   0.602 ms  0.418 ms  0.420 ms
+   2   10.4.0.29   1.060 ms  0.916 ms  0.956 ms
+   3   *10.4.0.25   1.432 ms (ICMP type:3, code:3, Destination port unreachable)  *
+
   ```
 </details>
 
