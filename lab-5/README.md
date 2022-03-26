@@ -360,3 +360,16 @@ VPCS> ping 10.4.0.13
 ^C
 ```
 </details>
+<details>
+<summary>PING по IP адресу на R26 с VPC31 при отключении линка до R25</summary>
+
+  ```
+  VPCS> ping  10.4.0.14
+
+  84 bytes from 10.4.0.14 icmp_seq=1 ttl=253 time=1.049 ms
+  84 bytes from 10.4.0.14 icmp_seq=2 ttl=253 time=1.397 ms
+  84 bytes from 10.4.0.14 icmp_seq=3 ttl=253 time=1.311 ms
+  84 bytes from 10.4.0.14 icmp_seq=4 ttl=253 time=1.386 ms
+  ^C
+  ```
+</details>
