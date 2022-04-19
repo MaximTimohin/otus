@@ -94,6 +94,8 @@ IPv6 сеть  20ff:aaaa:bbbb::/48
 ||10.1.1.36|30|20ff:aaaa:bbbb:0109::/64|R12-SW5|
 ||10.1.1.40|30|20ff:aaaa:bbbb:010a::/64|R13-SW4|
 ||10.1.1.44|30|20ff:aaaa:bbbb:010b::/64|R13-SW5|
+||10.1.1.48|30|20ff:aaaa:bbbb:010d::/64|R14-R15|
+||10.1.1.52|30|20ff:aaaa:bbbb:010e::/64|R12-R13|
 ||10.1.10.0|24|20ff:aaaa:bbbb:010c::/64|switches vlan10|
 ||10.1.100.0|24|20ff:aaaa:bbbb:011::/64|Vlan200-SW2|
 ||10.1.101.0|24|20ff:aaaa:bbbb:012::/64|Vlan300-SW3|
