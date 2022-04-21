@@ -6,4 +6,6 @@ Otus Labs
 * 2 - [Настройка STP](/lab-2/README.md)
 * 3 - [DHCPv4/v6 и SLAAC](/lab-3/README.md)
 * 4 - [Архитектура сети IPv4/v6](/lab-4/README.md)
-* 5 - [Настройка policy_based routing(PBR)](/lab-5/README.md) </details>
+* 5 - [Настройка policy based routing(PBR)](/lab-5/README.md)
+* 6 - [OSPF фильтрация](/lab-6/README.md)
+* 7 - [Настройка IS-IS](/lab-7/README.md)
