@@ -9,3 +9,4 @@ Otus Labs
 * 5 - [Настройка policy based routing(PBR)](/lab-5/README.md)
 * 6 - [OSPF фильтрация](/lab-6/README.md)
 * 7 - [Настройка IS-IS](/lab-7/README.md)
+* 8 - [Настройка EIGRP](/lab-8/README.md)
