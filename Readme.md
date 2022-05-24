@@ -10,3 +10,4 @@ Otus Labs
 * 6 - [OSPF фильтрация](/lab-6/README.md)
 * 7 - [Настройка IS-IS](/lab-7/README.md)
 * 8 - [Настройка EIGRP](/lab-8/README.md)
+* 9 - [Настройка BGP](/lab-9/README.md)
