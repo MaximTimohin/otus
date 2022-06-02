@@ -11,3 +11,4 @@ Otus Labs
 * 7 - [Настройка IS-IS](/lab-7/README.md)
 * 8 - [Настройка EIGRP](/lab-8/README.md)
 * 9 - [Настройка BGP](/lab-9/README.md)
+* 10 - [Настройка IBGP](/lab-10/README.md)
