@@ -12,3 +12,4 @@ Otus Labs
 * 8 - [Настройка EIGRP](/lab-8/README.md)
 * 9 - [Настройка BGP](/lab-9/README.md)
 * 10 - [Настройка IBGP](/lab-10/README.md)
+* 11 - [Фильтрация в BGP](/lab-11/README.md)
