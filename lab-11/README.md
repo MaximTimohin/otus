@@ -69,7 +69,7 @@ router bgp 1001
 ip as-path access-list 10 permit ^$
 ip as-path access-list 10 deny .*
 !
-  ```
+```
 Принимаем от R21 только AS301 и AS2042
 ```
 ip as-path access-list 101 permit _2042$
