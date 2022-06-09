@@ -70,6 +70,19 @@ ip as-path access-list 10 permit ^$
 ip as-path access-list 10 deny .*
 !
   ```
+Принимаем от R21 только default и сети от AS2042
+```
+ip as-path access-list 101 permit _2042$
+ip as-path access-list 101 deny .*
+!
+route-map AS301_IN permit 10
+ match as-path 101
+!
+router bgp 1001
+ bgp router-id 15.15.15.15
+ neighbor 10.1.1.30 route-map AS301_IN in
+!
+```
   </details>
 
 <details>
