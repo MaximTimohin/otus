@@ -70,9 +70,10 @@ ip as-path access-list 10 permit ^$
 ip as-path access-list 10 deny .*
 !
   ```
-Принимаем от R21 только default и сети от AS2042
+Принимаем от R21 только AS301 и AS2042
 ```
 ip as-path access-list 101 permit _2042$
+ip as-path access-list 101 permit ^301$
 ip as-path access-list 101 deny .*
 !
 route-map AS301_IN permit 10
