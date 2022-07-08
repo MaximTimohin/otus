@@ -18,6 +18,7 @@
 ###### Настраиваем GRE между офисами Москва и С.-Петербург
 <details>
 <summary>config-R14</summary>
+
   ```
 interface Tunnel100
  description GRE-R18
@@ -32,6 +33,7 @@ interface Tunnel100
 
 <details>
 <summary>config-R15</summary>
+
   ```
   interface Tunnel101
    description GRE-R18
@@ -46,6 +48,7 @@ interface Tunnel100
 
 <details>
 <summary>config-R18</summary>
+
   ```
   interface Tunnel100
    description GRE-R14
@@ -213,4 +216,4 @@ R14#show ip nhrp
  R14#
 
   ```
-  </details>
+</details>
