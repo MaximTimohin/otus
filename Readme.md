@@ -14,3 +14,4 @@ Otus Labs
 * 10 - [Настройка IBGP](/lab-10/README.md)
 * 11 - [Фильтрация в BGP](/lab-11/README.md)
 * 12 - [Основные протоколы сети интернет](/lab-12/README.md)
+* 13 - [VPN GRE DmVPN](/lab-13/README.md)
