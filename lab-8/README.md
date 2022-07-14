@@ -651,3 +651,193 @@ R17#
 
 ```
 </details>
+
+<details>
+<summary>R16 ip route</summary>
+
+```
+R16#show ip route eigrp | beg Gateway
+Gateway of last resort is 0.0.0.0 to network 0.0.0.0
+
+D*    0.0.0.0/0 is a summary, 05:18:22, Null0
+      9.0.0.0/32 is subnetted, 1 subnets
+D        9.9.9.9 [90/1024640] via 10.5.0.26, 2d05h, Ethernet0/2.15
+      10.0.0.0/8 is variably subnetted, 22 subnets, 7 masks
+D        10.0.0.0/8 is a summary, 2d05h, Null0
+D        10.1.2.0/24 [90/77312000] via 10.5.0.6, 07:01:04, Ethernet0/1
+D        10.1.3.0/24 [90/77312000] via 10.5.0.6, 07:01:04, Ethernet0/1
+D        10.5.0.0/16 [90/1024512] via 10.5.0.6, 07:01:06, Ethernet0/1
+D        10.5.0.0/30 [90/1536000] via 10.5.0.6, 05:18:22, Ethernet0/1
+D        10.5.0.8/30 [90/1536000] via 10.5.0.6, 07:01:06, Ethernet0/1
+D        10.5.0.12/30 [90/1536000] via 10.5.0.6, 07:01:06, Ethernet0/1
+D        10.5.0.16/29 is a summary, 02:46:08, Null0
+D        10.5.0.16/30 [90/1029120] via 10.5.0.26, 02:47:50, Ethernet0/2.15
+D        10.5.0.20/30 [90/1029120] via 10.5.0.30, 02:47:50, Ethernet0/0.15
+D        10.5.128.0/23 is a summary, 02:42:42, Null0
+D        10.5.129.0/24 [90/1029120] via 10.5.0.26, 2d05h, Ethernet0/2.15
+D        10.10.10.10/32 [90/1024640] via 10.5.0.30, 2d05h, Ethernet0/0.15
+      16.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+D        16.0.0.0/8 is a summary, 2d05h, Null0
+      17.0.0.0/8 is subnetted, 1 subnets
+D        17.0.0.0 [90/1029760] via 10.5.0.30, 05:09:29, Ethernet0/0.15
+                  [90/1029760] via 10.5.0.26, 05:09:29, Ethernet0/2.15
+      18.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+D        18.18.18.0/24 [90/1024512] via 10.5.0.6, 07:01:06, Ethernet0/1
+D        18.18.18.18/32 [90/1024640] via 10.5.0.6, 07:01:06, Ethernet0/1
+      32.0.0.0/32 is subnetted, 1 subnets
+D        32.32.32.32 [90/1024640] via 10.5.0.34, 2d05h, Ethernet0/3
+R16#show ipv6 route eigrp | beg \[
+D   20FF:AAAA:BBBB:503::/64 [90/1029120]
+     via FE80::9, Ethernet0/2.15
+D   20FF:AAAA:BBBB:504::/64 [90/1029120]
+     via FE80::10, Ethernet0/0.15
+D   20FF:AAAA:BBBB:508::/63 [5/1029120]
+     via Null0, directly connected
+D   20FF:AAAA:BBBB:508::/64 [90/1029120]
+     via FE80::9, Ethernet0/2.15
+D   20FF:AAAA:BBBB:509::/64 [90/1029120]
+     via FE80::10, Ethernet0/0.15
+D   20FF:AAAA:BBBB:510::/64 [90/1536000]
+     via FE80::18, Ethernet0/1
+R16#
+
+```
+</details>
+<details>
+<summary>R32 ip route</summary>
+
+```
+R32#show ip route eigrp | beg Gateway
+Gateway of last resort is 10.5.0.33 to network 0.0.0.0
+
+D*    0.0.0.0/0 [90/1024640] via 10.5.0.33, 2d05h, Ethernet0/0
+R32#show ipv6 route eigrp | beg \[
+D   20FF:AAAA:BBBB:500::/64 [90/1536000]
+     via FE80::16, Ethernet0/0
+D   20FF:AAAA:BBBB:503::/64 [90/1541120]
+     via FE80::16, Ethernet0/0
+D   20FF:AAAA:BBBB:504::/64 [90/1541120]
+     via FE80::16, Ethernet0/0
+D   20FF:AAAA:BBBB:505::/64 [90/1536000]
+     via FE80::16, Ethernet0/0
+D   20FF:AAAA:BBBB:506::/64 [90/1536000]
+     via FE80::16, Ethernet0/0
+D   20FF:AAAA:BBBB:508::/64 [90/1541120]
+     via FE80::16, Ethernet0/0
+D   20FF:AAAA:BBBB:509::/64 [90/1541120]
+     via FE80::16, Ethernet0/0
+D   20FF:AAAA:BBBB:510::/64 [90/2048000]
+     via FE80::16, Ethernet0/0
+R32#
+
+
+```
+</details>
+<details>
+<summary>SW10 ip route</summary>
+
+```
+SW10#show ip route eigrp | beg Gateway
+Gateway of last resort is 10.5.0.21 to network 0.0.0.0
+
+D*EX  0.0.0.0/0 [170/1541120] via 10.5.0.21, 05:20:57, Vlan14
+      9.0.0.0/32 is subnetted, 1 subnets
+D        9.9.9.9 [90/1029760] via 10.5.0.29, 05:20:57, Vlan15
+                 [90/1029760] via 10.5.0.21, 05:20:57, Vlan14
+      10.0.0.0/8 is variably subnetted, 18 subnets, 4 masks
+D        10.1.2.0/24 [90/77317120] via 10.5.0.29, 05:20:57, Vlan15
+                     [90/77317120] via 10.5.0.21, 05:20:57, Vlan14
+D        10.1.3.0/24 [90/77317120] via 10.5.0.29, 05:20:57, Vlan15
+                     [90/77317120] via 10.5.0.21, 05:20:57, Vlan14
+D        10.5.0.0/16 [90/1029632] via 10.5.0.29, 05:20:57, Vlan15
+                     [90/1029632] via 10.5.0.21, 05:20:57, Vlan14
+D        10.5.0.0/30 [90/1029120] via 10.5.0.21, 05:20:57, Vlan14
+D        10.5.0.4/30 [90/1029120] via 10.5.0.29, 05:20:57, Vlan15
+D        10.5.0.8/30 [90/1541120] via 10.5.0.29, 05:20:57, Vlan15
+                     [90/1541120] via 10.5.0.21, 05:20:57, Vlan14
+D        10.5.0.12/30 [90/1541120] via 10.5.0.29, 05:20:57, Vlan15
+                      [90/1541120] via 10.5.0.21, 05:20:57, Vlan14
+D        10.5.0.16/30 [90/1029120] via 10.5.0.21, 05:20:57, Vlan14
+D        10.5.0.24/30 [90/1029120] via 10.5.0.29, 05:20:57, Vlan15
+D        10.5.0.32/30 [90/1029120] via 10.5.0.29, 2d05h, Vlan15
+D        10.5.129.0/24 [90/1034240] via 10.5.0.29, 05:20:57, Vlan15
+D     16.0.0.0/8 [90/10880] via 10.5.0.29, 2d05h, Vlan15
+D     17.0.0.0/8 [90/10880] via 10.5.0.21, 05:12:04, Vlan14
+      18.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+D        18.18.18.0/24 [90/1029632] via 10.5.0.29, 05:20:57, Vlan15
+                       [90/1029632] via 10.5.0.21, 05:20:57, Vlan14
+D        18.18.18.18/32 [90/1029760] via 10.5.0.29, 05:20:57, Vlan15
+                        [90/1029760] via 10.5.0.21, 05:20:57, Vlan14
+      32.0.0.0/32 is subnetted, 1 subnets
+D        32.32.32.32 [90/1029760] via 10.5.0.29, 2d05h, Vlan15
+SW10# show ipv6 route eigrp | beg \[
+D   20FF:AAAA:BBBB:500::/64 [90/1029120]
+     via FE80::16, Vlan15
+D   20FF:AAAA:BBBB:503::/64 [90/1029120]
+     via FE80::17, Vlan14
+D   20FF:AAAA:BBBB:505::/64 [90/1029120]
+     via FE80::16, Vlan15
+D   20FF:AAAA:BBBB:507::/64 [90/1029120]
+     via FE80::16, Vlan15
+D   20FF:AAAA:BBBB:508::/64 [90/1034240]
+     via FE80::16, Vlan15
+     via FE80::17, Vlan14
+D   20FF:AAAA:BBBB:510::/64 [90/1029120]
+     via FE80::17, Vlan14
+SW10#
+
+```
+</details>
+<details>
+<summary>SW9 ip route</summary>
+
+```
+SW9#show ip route eigrp | beg Gateway
+Gateway of last resort is 10.5.0.17 to network 0.0.0.0
+
+D*EX  0.0.0.0/0 [170/1541120] via 10.5.0.17, 05:21:53, Vlan14
+      10.0.0.0/8 is variably subnetted, 18 subnets, 4 masks
+D        10.1.2.0/24 [90/77317120] via 10.5.0.25, 05:21:53, Vlan15
+                     [90/77317120] via 10.5.0.17, 05:21:53, Vlan14
+D        10.1.3.0/24 [90/77317120] via 10.5.0.25, 05:21:53, Vlan15
+                     [90/77317120] via 10.5.0.17, 05:21:53, Vlan14
+D        10.5.0.0/16 [90/1029632] via 10.5.0.25, 05:21:53, Vlan15
+                     [90/1029632] via 10.5.0.17, 05:21:53, Vlan14
+D        10.5.0.0/30 [90/1029120] via 10.5.0.17, 05:21:53, Vlan14
+D        10.5.0.4/30 [90/1029120] via 10.5.0.25, 05:21:53, Vlan15
+D        10.5.0.8/30 [90/1541120] via 10.5.0.25, 05:21:53, Vlan15
+                     [90/1541120] via 10.5.0.17, 05:21:53, Vlan14
+D        10.5.0.12/30 [90/1541120] via 10.5.0.25, 05:21:53, Vlan15
+                      [90/1541120] via 10.5.0.17, 05:21:53, Vlan14
+D        10.5.0.20/30 [90/1029120] via 10.5.0.17, 05:21:53, Vlan14
+D        10.5.0.28/30 [90/1029120] via 10.5.0.25, 05:21:53, Vlan15
+D        10.5.0.32/30 [90/1029120] via 10.5.0.25, 2d05h, Vlan15
+D        10.5.128.0/24 [90/1034240] via 10.5.0.17, 05:21:53, Vlan14
+D        10.10.10.10/32 [90/1029760] via 10.5.0.25, 05:21:53, Vlan15
+                        [90/1029760] via 10.5.0.17, 05:21:53, Vlan14
+D     16.0.0.0/8 [90/10880] via 10.5.0.25, 2d05h, Vlan15
+D     17.0.0.0/8 [90/10880] via 10.5.0.17, 05:13:00, Vlan14
+      18.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+D        18.18.18.0/24 [90/1029632] via 10.5.0.25, 05:21:53, Vlan15
+                       [90/1029632] via 10.5.0.17, 05:21:53, Vlan14
+D        18.18.18.18/32 [90/1029760] via 10.5.0.25, 05:21:53, Vlan15
+                        [90/1029760] via 10.5.0.17, 05:21:53, Vlan14
+      32.0.0.0/32 is subnetted, 1 subnets
+D        32.32.32.32 [90/1029760] via 10.5.0.25, 2d05h, Vlan15
+SW9#  show ipv6 route eigrp | beg \[
+D   20FF:AAAA:BBBB:500::/64 [90/1029120]
+     via FE80::16, Vlan15
+D   20FF:AAAA:BBBB:504::/64 [90/1029120]
+     via FE80::17, Vlan14
+D   20FF:AAAA:BBBB:506::/64 [90/1029120]
+     via FE80::16, Vlan15
+D   20FF:AAAA:BBBB:507::/64 [90/1029120]
+     via FE80::16, Vlan15
+D   20FF:AAAA:BBBB:509::/64 [90/1034240]
+     via FE80::17, Vlan14
+     via FE80::16, Vlan15
+D   20FF:AAAA:BBBB:510::/64 [90/1029120]
+     via FE80::17, Vlan14
+
+```
+</details>
