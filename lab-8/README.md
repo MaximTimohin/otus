@@ -104,7 +104,7 @@ router eigrp SP
  address-family ipv4 unicast autonomous-system 2042
   !
   af-interface Ethernet0/1
-   summary-address 10.5.0.16 255.255.255.248
+   summary-address 10.5.0.16 255.255.255.240
    summary-address 10.5.128.0 255.255.254.0
   exit-af-interface
   !
@@ -130,6 +130,7 @@ router eigrp SP
   eigrp router-id 17.17.17.17
  exit-address-family
 !
+
 
 ```
 </details>
@@ -189,7 +190,7 @@ router eigrp SP
   exit-af-interface
   !
   af-interface Ethernet0/1
-   summary-address 10.5.0.16 255.255.255.248
+   summary-address 10.5.0.16 255.255.255.240
    summary-address 10.5.128.0 255.255.254.0
   exit-af-interface
   !
@@ -213,10 +214,15 @@ router eigrp SP
    summary-address 20FF:AAAA:BBBB:508::/63
   exit-af-interface
   !
+  af-interface Ethernet0/3
+   summary-address ::/0
+  exit-af-interface
+  !
   topology base
   exit-af-topology
  exit-address-family
 !
+
 
 ```
 </details>
@@ -555,25 +561,25 @@ SW10#
 <summary>R18 ip route</summary>
 
 ```
-R18#show ip route eigrp | beg Gateway
+R18# show ip route eigrp | beg Gateway
 Gateway of last resort is 10.5.0.10 to network 0.0.0.0
 
       9.0.0.0/32 is subnetted, 1 subnets
-D        9.9.9.9 [90/1536640] via 10.5.0.5, 03:00:27, Ethernet0/0
-                 [90/1536640] via 10.5.0.1, 03:00:27, Ethernet0/1
-      10.0.0.0/8 is variably subnetted, 26 subnets, 6 masks
-D        10.5.0.16/29 [90/1536000] via 10.5.0.1, 00:28:13, Ethernet0/1
-D        10.5.0.24/30 [90/1536000] via 10.5.0.5, 00:22:20, Ethernet0/0
-D        10.5.0.28/30 [90/1536000] via 10.5.0.5, 00:22:20, Ethernet0/0
-D        10.5.0.32/30 [90/1536000] via 10.5.0.5, 03:00:27, Ethernet0/0
-D        10.5.128.0/23 [90/1536000] via 10.5.0.5, 00:24:47, Ethernet0/0
-                       [90/1536000] via 10.5.0.1, 00:24:47, Ethernet0/1
-D        10.10.10.10/32 [90/1536640] via 10.5.0.5, 03:00:27, Ethernet0/0
-                        [90/1536640] via 10.5.0.1, 03:00:27, Ethernet0/1
-D     16.0.0.0/8 [90/1024640] via 10.5.0.5, 03:00:27, Ethernet0/0
-D     17.0.0.0/8 [90/1024640] via 10.5.0.1, 02:51:34, Ethernet0/1
+D        9.9.9.9 [90/1536640] via 10.5.0.5, 1d00h, Ethernet0/0
+                 [90/1536640] via 10.5.0.1, 1d00h, Ethernet0/1
+      10.0.0.0/8 is variably subnetted, 24 subnets, 6 masks
+D        10.5.0.16/28 [90/1536000] via 10.5.0.5, 03:32:08, Ethernet0/0
+                      [90/1536000] via 10.5.0.1, 03:32:08, Ethernet0/1
+D        10.5.0.32/30 [90/1536000] via 10.5.0.5, 03:34:53, Ethernet0/0
+D        10.5.128.0/23 [90/1536000] via 10.5.0.5, 21:25:38, Ethernet0/0
+                       [90/1536000] via 10.5.0.1, 21:25:38, Ethernet0/1
+D        10.10.10.10/32 [90/1536640] via 10.5.0.5, 1d00h, Ethernet0/0
+                        [90/1536640] via 10.5.0.1, 1d00h, Ethernet0/1
+D     16.0.0.0/8 [90/1024640] via 10.5.0.5, 1d00h, Ethernet0/0
+D     17.0.0.0/8 [90/1024640] via 10.5.0.1, 23:52:25, Ethernet0/1
       32.0.0.0/32 is subnetted, 1 subnets
-D        32.32.32.32 [90/1536640] via 10.5.0.5, 03:00:27, Ethernet0/0
+D        32.32.32.32 [90/1536640] via 10.5.0.5, 1d00h, Ethernet0/0
+R18#
 
 
 R18#show ipv6 route eigrp | beg \[
@@ -711,23 +717,16 @@ R32#show ip route eigrp | beg Gateway
 Gateway of last resort is 10.5.0.33 to network 0.0.0.0
 
 D*    0.0.0.0/0 [90/1024640] via 10.5.0.33, 2d05h, Ethernet0/0
-R32#show ipv6 route eigrp | beg \[
-D   20FF:AAAA:BBBB:500::/64 [90/1536000]
+
+R32# show ipv6 route | beg \]
+D   ::/0 [90/1536000]
      via FE80::16, Ethernet0/0
-D   20FF:AAAA:BBBB:503::/64 [90/1541120]
-     via FE80::16, Ethernet0/0
-D   20FF:AAAA:BBBB:504::/64 [90/1541120]
-     via FE80::16, Ethernet0/0
-D   20FF:AAAA:BBBB:505::/64 [90/1536000]
-     via FE80::16, Ethernet0/0
-D   20FF:AAAA:BBBB:506::/64 [90/1536000]
-     via FE80::16, Ethernet0/0
-D   20FF:AAAA:BBBB:508::/64 [90/1541120]
-     via FE80::16, Ethernet0/0
-D   20FF:AAAA:BBBB:509::/64 [90/1541120]
-     via FE80::16, Ethernet0/0
-D   20FF:AAAA:BBBB:510::/64 [90/2048000]
-     via FE80::16, Ethernet0/0
+C   20FF:AAAA:BBBB:507::/64 [0/0]
+     via Ethernet0/0, directly connected
+L   20FF:AAAA:BBBB:507::7/128 [0/0]
+     via Ethernet0/0, receive
+L   FF00::/8 [0/0]
+     via Null0, receive
 R32#
 
 
