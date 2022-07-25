@@ -77,4 +77,4 @@ backup server для сетевого оборудования
 ```
 </details>
 
-Read more [here](./configs/DATA-R1.txt) # It works!
+  [Конфигурация устройства ISP-R1](/configs/DATA-R1.txt)
