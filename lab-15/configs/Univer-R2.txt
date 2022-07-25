@@ -1,0 +1,304 @@
+Current configuration : 6089 bytes
+!
+! Last configuration change at 10:56:29 MSK Mon Jul 25 2022 by Max
+! NVRAM config last updated at 21:38:24 MSK Mon Jul 25 2022 by Max
+!
+version 15.4
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+service sequence-numbers
+!
+hostname Univer-R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+security authentication failure rate 10 log
+security passwords min-length 6
+logging console critical
+enable secret 5 $1$xIYo$N42BjPBsB6NrpfKL8jLe3/
+enable password 7 0524121A32604F0B2B10
+!
+aaa new-model
+!
+!
+aaa group server tacacs+ OTUSaaa
+ server name OTUSaaa
+!
+aaa authentication login default group OTUSaaa local
+aaa authentication enable default group OTUSaaa enable
+aaa authorization console
+aaa authorization config-commands
+aaa authorization exec default group OTUSaaa local
+aaa authorization commands 0 default group OTUSaaa local
+aaa authorization commands 15 default group OTUSaaa local
+aaa accounting send stop-record authentication failure
+aaa accounting update newinfo periodic 5
+aaa accounting exec default start-stop group OTUSaaa
+aaa accounting commands 2 default start-stop group OTUSaaa
+aaa accounting commands 15 default start-stop group OTUSaaa
+aaa accounting network default start-stop group OTUSaaa
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+clock calendar-valid
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+no ip source-route
+no ip gratuitous-arps
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip bootp server
+ip domain name otuslab.ru
+ip cef
+login block-for 300 attempts 3 within 120
+login on-failure log
+login on-success log
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+archive
+ log config
+  logging enable
+  notify syslog contenttype plaintext
+  hidekeys
+ path ftp://5.5.5.5/$h
+ write-memory
+username Maxim privilege 15 secret 9 $9$g5aYWmOk3VUv3a$tmSEw3z.KyxsXDRSJ2IxOozoTdmy1My8XYinIvQskBU
+!
+redundancy
+!
+no cdp run
+!
+ip ftp username ISP1
+ip ftp password 7 10611D0C163B1309
+ip ssh time-out 60
+ip ssh authentication-retries 2
+ip ssh logging events
+ip ssh version 2
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 10.200.2.1 255.255.255.252
+!
+interface Ethernet0/0
+ description Univer-R3-e1/0
+ ip address 10.200.6.2 255.255.255.248
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nat inside
+ ip virtual-reassembly in
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/1
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/2
+ description ISP-1-R2-e0/2
+ ip address 10.101.15.2 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nat outside
+ ip virtual-reassembly in
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/3
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/0
+ description Univer-R1-e1/0
+ ip address 10.200.8.2 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nat inside
+ ip virtual-reassembly in
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/1
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/2
+ description Univer-R4-e1/2
+ ip address 10.200.7.2 255.255.255.248
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nat inside
+ ip virtual-reassembly in
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/3
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+router bgp 45011
+ bgp router-id 10.200.2.1
+ bgp log-neighbor-changes
+ neighbor 10.101.15.1 remote-as 45001
+ neighbor 10.101.15.1 version 4
+ neighbor 10.101.15.1 fall-over bfd
+ neighbor 10.200.6.3 remote-as 45011
+ neighbor 10.200.6.3 version 4
+ neighbor 10.200.6.3 fall-over bfd
+ neighbor 10.200.7.4 remote-as 45011
+ neighbor 10.200.7.4 version 4
+ neighbor 10.200.7.4 fall-over bfd
+ neighbor 10.200.8.1 remote-as 45011
+ neighbor 10.200.8.1 version 4
+ neighbor 10.200.8.1 fall-over bfd
+ !
+ address-family ipv4
+  network 10.200.0.0 mask 255.255.0.0
+  network 192.168.2.0
+  network 192.168.5.0
+  redistribute connected
+  neighbor 10.101.15.1 activate
+  neighbor 10.101.15.1 soft-reconfiguration inbound
+  neighbor 10.101.15.1 prefix-list AS45001_OUT out
+  neighbor 10.200.6.3 activate
+  neighbor 10.200.6.3 next-hop-self
+  neighbor 10.200.6.3 default-originate
+  neighbor 10.200.6.3 soft-reconfiguration inbound
+  neighbor 10.200.6.3 prefix-list AS45011_OUT out
+  neighbor 10.200.7.4 activate
+  neighbor 10.200.7.4 next-hop-self
+  neighbor 10.200.7.4 soft-reconfiguration inbound
+  neighbor 10.200.7.4 prefix-list AS45011_OUT out
+  neighbor 10.200.8.1 activate
+  neighbor 10.200.8.1 next-hop-self
+  neighbor 10.200.8.1 soft-reconfiguration inbound
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source route-map ISP1 interface Ethernet0/2 overload
+ip route 10.200.0.0 255.255.0.0 Null0
+!
+!
+!
+ip prefix-list AS45001_OUT seq 5 permit 10.200.0.0/16
+!
+ip prefix-list AS45011_OUT seq 5 permit 0.0.0.0/0
+logging trap debugging
+logging origin-id hostname
+logging facility local2
+logging host 5.5.5.5
+!
+route-map ISP1 permit 10
+ match ip address 15
+ match interface Ethernet0/2
+!
+snmp-server community OtusLabRO RO
+!
+tacacs server OTUSaaa
+ address ipv4 5.5.5.5
+ key 7 032B6F3E351B204F652C20
+ timeout 5
+access-list 15 permit 192.168.0.0 0.0.255.255
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+banner motd ^C LOGIN or LEAVE, ACCESS is DENIED!!! ^C
+!
+line con 0
+ exec-timeout 5 0
+ logging synchronous
+ transport output none
+line aux 0
+ transport output none
+line vty 0 4
+ transport input ssh
+!
+ntp authentication-key 1 md5 153D1F1917041F14 7
+ntp authenticate
+ntp server 5.5.5.5
+!
+end

@@ -1,0 +1,317 @@
+Current configuration : 6737 bytes
+!
+! Last configuration change at 10:14:29 MSK Mon Jul 25 2022 by Max
+! NVRAM config last updated at 21:37:43 MSK Mon Jul 25 2022 by Max
+!
+version 15.4
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+service sequence-numbers
+!
+hostname ISP1-R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+security authentication failure rate 10 log
+security passwords min-length 6
+logging console critical
+enable secret 5 $1$xIYo$N42BjPBsB6NrpfKL8jLe3/
+enable password 7 10611D0C163B13093E11
+!
+aaa new-model
+!
+!
+aaa group server tacacs+ OTUSaaa
+ server name OTUSaaa
+!
+aaa authentication login default group OTUSaaa local
+aaa authentication enable default group OTUSaaa enable
+aaa authorization console
+aaa authorization config-commands
+aaa authorization exec default group OTUSaaa local
+aaa authorization commands 0 default group OTUSaaa local
+aaa authorization commands 15 default group OTUSaaa local
+aaa accounting send stop-record authentication failure
+aaa accounting update newinfo periodic 5
+aaa accounting exec default start-stop group OTUSaaa
+aaa accounting commands 2 default start-stop group OTUSaaa
+aaa accounting commands 15 default start-stop group OTUSaaa
+aaa accounting network default start-stop group OTUSaaa
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+clock calendar-valid
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+no ip gratuitous-arps
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip bootp server
+ip domain name otuslab.ru
+ip cef
+login block-for 300 attempts 3 within 120
+login on-failure log
+login on-success log
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+archive
+ log config
+  logging enable
+  notify syslog contenttype plaintext
+  hidekeys
+ path ftp://5.5.5.5/$h
+ write-memory
+username Maxim privilege 15 secret 9 $9$t0SP6UHAGrt20K$NKiDl9DUpYnB6/V5kmjqyfEaOrkkA0CuCjZoz67cVaE
+!
+redundancy
+!
+no cdp run
+!
+ip ftp username ISP1
+ip ftp password 7 10611D0C163B1309
+ip ssh time-out 60
+ip ssh authentication-retries 2
+ip ssh logging events
+ip ssh version 2
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ description main-loopback
+ ip address 10.101.1.1 255.255.255.252
+!
+interface Ethernet0/0
+ description DATA-R1-e0/0
+ ip address 10.101.3.1 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/1
+ description IPS2-e0/1
+ ip address 10.101.8.1 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/2
+ description Univer-R1-e0/0
+ ip address 10.101.5.1 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/3
+ description ISP3-e0/0
+ ip address 10.101.9.1 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/0
+ description ISP1-R2-e1/0
+ ip address 10.101.7.1 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/1
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/2
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/3
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+router bgp 45001
+ bgp router-id 10.101.1.1
+ bgp log-neighbor-changes
+ neighbor 10.101.3.2 remote-as 45010
+ neighbor 10.101.3.2 version 4
+ neighbor 10.101.3.2 fall-over bfd
+ neighbor 10.101.5.2 remote-as 45011
+ neighbor 10.101.5.2 version 4
+ neighbor 10.101.5.2 fall-over bfd
+ neighbor 10.101.7.2 remote-as 45001
+ neighbor 10.101.7.2 version 4
+ neighbor 10.101.7.2 fall-over bfd
+ neighbor 10.101.8.2 remote-as 45014
+ neighbor 10.101.8.2 version 4
+ neighbor 10.101.8.2 fall-over bfd
+ neighbor 10.101.9.2 remote-as 45015
+ neighbor 10.101.9.2 version 4
+ neighbor 10.101.9.2 fall-over bfd
+ !
+ address-family ipv4
+  network 10.101.0.0 mask 255.255.0.0
+  redistribute connected
+  neighbor 10.101.3.2 activate
+  neighbor 10.101.3.2 default-originate
+  neighbor 10.101.3.2 soft-reconfiguration inbound
+  neighbor 10.101.3.2 prefix-list AS45010_IN in
+  neighbor 10.101.3.2 prefix-list AS45010_OUT out
+  neighbor 10.101.5.2 activate
+  neighbor 10.101.5.2 default-originate
+  neighbor 10.101.5.2 soft-reconfiguration inbound
+  neighbor 10.101.7.2 activate
+  neighbor 10.101.7.2 next-hop-self
+  neighbor 10.101.7.2 default-originate
+  neighbor 10.101.7.2 soft-reconfiguration inbound
+  neighbor 10.101.8.2 activate
+  neighbor 10.101.8.2 default-originate
+  neighbor 10.101.8.2 soft-reconfiguration inbound
+  neighbor 10.101.8.2 prefix-list AS45014_IN in
+  neighbor 10.101.8.2 prefix-list AS45014_OUT out
+  neighbor 10.101.9.2 activate
+  neighbor 10.101.9.2 default-originate
+  neighbor 10.101.9.2 soft-reconfiguration inbound
+  neighbor 10.101.9.2 prefix-list AS45015_IN in
+  neighbor 10.101.9.2 prefix-list AS45015_OUT out
+ exit-address-family
+!
+ip forward-protocol nd
+!
+ip as-path access-list 101 permit ^45010$
+ip as-path access-list 101 deny .*
+!
+no ip http server
+no ip http secure-server
+ip route 10.101.0.0 255.255.0.0 Null0
+!
+!
+!
+ip prefix-list AS45010_IN seq 5 permit 5.5.0.0/16
+!
+ip prefix-list AS45010_OUT seq 5 permit 10.101.0.0/16 le 17
+ip prefix-list AS45010_OUT seq 50 permit 0.0.0.0/0 le 24
+!
+ip prefix-list AS45014_IN seq 5 permit 10.104.0.0/16
+ip prefix-list AS45014_IN seq 10 permit 10.105.0.0/16
+!
+ip prefix-list AS45014_OUT seq 50 permit 0.0.0.0/0 le 24
+!
+ip prefix-list AS45015_IN seq 5 permit 10.105.0.0/16
+ip prefix-list AS45015_IN seq 10 permit 10.104.0.0/16
+!
+ip prefix-list AS45015_OUT seq 50 permit 0.0.0.0/0 le 24
+logging trap debugging
+logging origin-id hostname
+logging facility local2
+logging host 5.5.5.5
+!
+route-map AS45010_OUT permit 10
+!
+route-map AS45010_IN permit 10
+ match as-path 101
+!
+snmp-server community OtusLabRO RO
+!
+tacacs server OTUSaaa
+ address ipv4 5.5.5.5
+ key 7 032B6F3E351B204F652C20
+ timeout 5
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+banner motd ^C LOGIN or LEAVE, ACCESS is DENIED!!! ^C
+!
+line con 0
+ exec-timeout 5 0
+ logging synchronous
+ transport output none
+line aux 0
+ transport output none
+line vty 0 4
+ transport input ssh
+!
+ntp authentication-key 1 md5 11260D10043C3F3C 7
+ntp authenticate
+ntp server 5.5.5.5
+!
+end

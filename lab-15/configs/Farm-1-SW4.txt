@@ -1,0 +1,189 @@
+Current configuration : 3700 bytes
+!
+! Last configuration change at 16:39:41 MSK Mon Jul 25 2022
+! NVRAM config last updated at 21:35:43 MSK Mon Jul 25 2022 by Max
+!
+version 15.2
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+service compress-config
+service sequence-numbers
+!
+hostname Farm-1-SW-4
+!
+boot-start-marker
+boot-end-marker
+!
+!
+logging console critical
+enable secret 5 $1$xIYo$N42BjPBsB6NrpfKL8jLe3/
+enable password 7 04741F131C0D4D4C3B0C
+!
+username Maxim privilege 15 secret 9 $9$RXdYirzMwLqdSX$aUzmWwk9q7LG1/nB3UnD3xLRgh4SEb.gGaDNDOL0YuQ
+aaa new-model
+!
+!
+aaa group server tacacs+ OTUSaaa
+ server name OTUSaaa
+!
+aaa authentication login default group OTUSaaa local
+aaa authentication enable default group OTUSaaa enable
+aaa authorization console
+aaa authorization config-commands
+aaa authorization exec default group OTUSaaa local
+aaa authorization commands 0 default group OTUSaaa local
+aaa authorization commands 15 default group OTUSaaa local
+aaa accounting send stop-record authentication failure
+aaa accounting update newinfo periodic 5
+aaa accounting exec default start-stop group OTUSaaa
+aaa accounting commands 2 default start-stop group OTUSaaa
+aaa accounting commands 15 default start-stop group OTUSaaa
+aaa accounting network default start-stop group OTUSaaa
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+clock calendar-valid
+!
+!
+!
+!
+!
+no ip source-route
+no ip gratuitous-arps
+!
+!
+ip dhcp pool pool-1001
+ network 10.106.1.0 255.255.255.0
+ default-router 10.106.1.1
+ domain-name otuslab.ru
+ lease 2 12 30
+!
+!
+no ip bootp server
+ip domain-name otuslab.ru
+ip cef
+login block-for 120 attempts 3 within 120
+login on-failure log
+login on-success log
+ipv6 unicast-routing
+ipv6 cef
+!
+!
+archive
+ log config
+  logging enable
+  notify syslog contenttype plaintext
+  hidekeys
+ path ftp://5.5.5.5/$h
+ write-memory
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+spanning-tree vlan 1,10,1000-1001 priority 20480
+!
+vlan internal allocation policy ascending
+no cdp run
+!
+ip ftp username ISP1
+ip ftp password 7 10611D0C163B1309
+ip ssh time-out 60
+ip ssh authentication-retries 2
+ip ssh logging events
+ip ssh version 2
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Ethernet0/0
+ switchport trunk allowed vlan 10,1000,1001
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/1
+ switchport trunk allowed vlan 10,1000,1001
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/2
+ switchport trunk allowed vlan 10,1000,1001
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/3
+ switchport access vlan 1001
+ switchport mode access
+ no cdp enable
+ no mop enabled
+!
+interface Vlan10
+ ip address 10.106.100.4 255.255.255.0
+!
+interface Vlan1000
+ no ip address
+!
+interface Vlan1001
+ ip address 10.106.1.1 255.255.255.0
+!
+ip forward-protocol nd
+!
+no ip http server
+no ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.106.100.254
+!
+!
+logging trap debugging
+logging origin-id hostname
+logging facility local2
+logging host 5.5.5.5
+!
+!
+snmp-server community OtusLabRO RO
+tacacs server OTUSaaa
+ address ipv4 5.5.5.5
+ key 7 032B6F3E351B204F652C20
+ timeout 5
+!
+!
+!
+control-plane
+!
+banner motd ^C LOGIN or LEAVE, ACCESS is DENIED!!! ^C
+!
+line con 0
+ exec-timeout 5 0
+ logging synchronous
+ transport output none
+line aux 0
+ transport output none
+line vty 0 4
+ transport input ssh
+!
+ntp authentication-key 1 md5 0524121A32627A39 7
+ntp authenticate
+ntp server 5.5.5.5
+!
+end

@@ -1,0 +1,407 @@
+Current configuration : 11124 bytes
+!
+! Last configuration change at 20:20:53 MSK Mon Jul 25 2022 by Max
+! NVRAM config last updated at 21:38:14 MSK Mon Jul 25 2022 by Max
+!
+version 15.4
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+service sequence-numbers
+!
+hostname Univer-R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+security authentication failure rate 10 log
+security passwords min-length 6
+logging console critical
+enable secret 5 $1$xIYo$N42BjPBsB6NrpfKL8jLe3/
+enable password 7 132A0307182005281931
+!
+aaa new-model
+!
+!
+aaa group server tacacs+ OTUSaaa
+ server name OTUSaaa
+!
+aaa authentication login default group OTUSaaa local
+aaa authentication enable default group OTUSaaa enable
+aaa authorization console
+aaa authorization config-commands
+aaa authorization exec default group OTUSaaa local
+aaa authorization commands 0 default group OTUSaaa local
+aaa authorization commands 15 default group OTUSaaa local
+aaa accounting send stop-record authentication failure
+aaa accounting update newinfo periodic 5
+aaa accounting exec default start-stop group OTUSaaa
+aaa accounting commands 2 default start-stop group OTUSaaa
+aaa accounting commands 15 default start-stop group OTUSaaa
+aaa accounting network default start-stop group OTUSaaa
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone MSK 3 0
+clock calendar-valid
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+no ip source-route
+no ip gratuitous-arps
+!
+!
+!
+!
+!
+!
+!
+!
+
+
+!
+!
+!
+!
+no ip bootp server
+ip domain name otuslab.ru
+ip cef
+login block-for 300 attempts 3 within 120
+login on-failure log
+login on-success log
+ipv6 unicast-routing
+ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint IPSECVPNTP53
+ enrollment url http://5.5.5.3:80
+ serial-number
+ subject-name CN=UN-R1,OU=IPSECVPN,O=otuslab,C=ru
+ revocation-check none
+ rsakeypair IPSECVPNTP53
+!
+!
+crypto pki certificate chain IPSECVPNTP53
+ certificate 08
+  30820355 3082023D A0030201 02020108 300D0609 2A864886 F70D0101 05050030
+  13311130 0F060355 04031308 49505345 4356504E 301E170D 32323037 32353137
+  30383339 5A170D32 33303732 35313730 3833395A 3078310B 30090603 55040613
+  02727531 10300E06 0355040A 13076F74 75736C61 62311130 0F060355 040B1308
+  49505345 4356504E 310E300C 06035504 03130555 4E2D5231 3134300F 06035504
+  05130836 37313130 39343530 2106092A 864886F7 0D010902 1614556E 69766572
+  2D52312E 6F747573 6C61622E 72753082 0122300D 06092A86 4886F70D 01010105
+  00038201 0F003082 010A0282 010100ED 703BC8DD 38D45DB7 0D3D5A81 A8ED713A
+  C6209CD0 F02EA6AD 9E0D59E8 DB8A1828 08D625DF AF837685 92901B35 DA2CDF7C
+  FAED5878 DA7506A5 737C38AC 390C4CA6 F2D9F706 687EB775 CDC041EB 531CD707
+  BED9F79A 1B025CAD 807B1D73 2F3394A2 430132AD 95086603 D11D957B 7A5E0A67
+  FB09FE9E C1CC94AD A106E7F2 5BB336EA 1863351D 0913D8EF 8DDE7437 A12559A5
+  BD70A7ED 99298A3D 996D5E85 4114031A E74E1557 2B13F94A 2DF0D314 D2C957CD
+  09031B86 5FEC1D0F 528CE186 2E21D3AF B0938446 A434B04D E75B4FF4 59781228
+  784A44E0 9C280801 46233249 5C85D099 0E3E9668 A80960F7 8F46AFA9 362A96AE
+  B0DED7FD 501B3319 B42229A1 520EA102 03010001 A34F304D 300B0603 551D0F04
+  04030205 A0301F06 03551D23 04183016 801407EE E46025FB 8BE39A4B 52A98F39
+  F55F0E05 409E301D 0603551D 0E041604 1454C0EF B0AFE609 800A4DD2 2A5B8E18
+  F66D13C3 16300D06 092A8648 86F70D01 01050500 03820101 009C71E4 E71ED17E
+  006CFF7A 0F697C46 F2CC4F40 551FC81A 0177D672 663B6D21 381C5318 F837AC26
+  EECACCE4 08D19043 F0C44DB5 3BE4926B C6021063 A5A0E412 B7F5CB78 CED7A031
+  97ED4EDF 1D1D2464 7F43EDE2 C25BBDFB 7DD99D89 AAA21D2F 287FE6B9 68A2F842
+  923EF128 8A987201 20317A84 99580788 3DC47993 84975058 349B07DD 449EDFA3
+  9DB4CFBB A69A30A7 7D39160C 94224ABC 33731CF0 3E1ED524 ACAADCFA B7BE2268
+  42BFAE14 AC041A2E 9FEC85AA FCEA19E9 5B5CE7EF 172D7EDC B33D7E52 3B3C6BB2
+  BD42EE1C 354203BA 4EF07EAE BFD05E84 CEF263E4 1DF3FBD5 87D5D6C2 14F4CF1E
+  5528C6AF DFCD5139 81D47DF4 4A783C44 FF24FF98 20C902F4 6C
+        quit
+ certificate ca 01
+  30820304 308201EC A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  13311130 0F060355 04031308 49505345 4356504E 301E170D 32323037 32353133
+  31363032 5A170D32 35303732 34313331 3630325A 30133111 300F0603 55040313
+  08495053 45435650 4E308201 22300D06 092A8648 86F70D01 01010500 0382010F
+  00308201 0A028201 0100DC8A CBF42D3B F3C2D29A 7C69DA21 F6B6E18E 7F997E68
+  F1ACFB85 2D2398F2 FAF764EC AFEAE4E7 C3960366 89E43577 A66BD821 80C8AA89
+  86ABBB0E 48F5C9B6 BFDC69F7 107F47EE 26546B0B 97F0B5DE 728CEDF7 4EE7A6F8
+  6117A930 23EF47D7 3D38E143 DD6CA1FC DCAB5A40 8C9D81B3 BF8434AB 95A0A4E0
+  56F351A5 7E324E7A 539D9084 80C4EC64 9D53A07A B66D5A30 23F24744 9611183A
+  030B593E EB5923DE 7F22C4B1 985F136A 8B11E1B8 63F1F822 EBDF1789 F2AB4DDE
+  1FA796FF 2B04EF5A ECE455F8 9CEAEB32 0346FC19 A0C4D367 14D7FC00 63492A3E
+  AA2998C0 86716E00 3D469719 E2E69D0A 3735F45E ECE0F7EF 394893C7 23D56990
+  1912E853 AB47257E D8930203 010001A3 63306130 0F060355 1D130101 FF040530
+  030101FF 300E0603 551D0F01 01FF0404 03020186 301F0603 551D2304 18301680
+  1407EEE4 6025FB8B E39A4B52 A98F39F5 5F0E0540 9E301D06 03551D0E 04160414
+  07EEE460 25FB8BE3 9A4B52A9 8F39F55F 0E05409E 300D0609 2A864886 F70D0101
+  04050003 82010100 234AFB87 53F72D84 D569106D 91F8A400 BA160418 CFC549A3
+  ED5A59C1 E0B182E1 A6DDB521 2BFB9130 748F731A 51083BA6 1D5FEF7B 922F22A4
+  9A265959 10A7F3D1 0C46DDEB E7ACBD30 795FB9FA 050CA397 85F3144F B5CC2300
+  E421DAA0 AEB70783 1DDB9206 A7E3C062 8A32F44B 5666CF86 1E6E2D0A 02F3F865
+  48CD08BA 78B91B76 16886B28 D8A4B7C8 83A09624 19F9D1B4 96FE85B7 9ED43B50
+  9310688D 46181360 A7104B4D 7BA8AFD5 927D4C91 B87B3BB9 D7B80C4A 7799CD1B
+  554818D4 35229EF6 9AA443CE 340DBA26 7F4CEBA4 CF5C724F 106CEAC4 181A605C
+  B66FF7A1 7F16CF55 5EF1F6A1 94D0D6DE 205067B8 459609DE 607647FF 36C0D460
+  66F321D0 51B2C0DB
+        quit
+archive
+ log config
+  logging enable
+  notify syslog contenttype plaintext
+  hidekeys
+ path ftp://5.5.5.5/$h
+ write-memory
+username Maxim privilege 15 secret 9 $9$tEJJZiw1SqFZtq$iBCHs3qQYjAY3oTIU5z5cTJLpE9lbd.uk4KvAKelezg
+!
+redundancy
+!
+no cdp run
+!
+ip ftp username ISP1
+ip ftp password 7 10611D0C163B1309
+ip ssh time-out 60
+ip ssh authentication-retries 2
+ip ssh logging events
+ip ssh version 2
+!
+!
+!
+!
+!
+crypto isakmp policy 10
+!
+!
+crypto ipsec transform-set IPSECSET esp-aes esp-sha256-hmac
+ mode tunnel
+!
+crypto ipsec profile IPSEC_PROF
+ set transform-set IPSECSET
+!
+!
+!
+!
+!
+!
+!
+interface Loopback1
+ ip address 10.200.1.1 255.255.255.252
+ ip nat inside
+ ip virtual-reassembly in
+!
+interface Tunnel100
+ ip address 172.16.0.3 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp authentication otus
+ ip nhrp map multicast dynamic
+ ip nhrp map multicast 5.5.5.3
+ ip nhrp map 172.16.0.1 5.5.5.3
+ ip nhrp network-id 1
+ ip nhrp nhs 172.16.0.1
+ ip tcp adjust-mss 1360
+ tunnel source Loopback1
+ tunnel mode gre multipoint
+ tunnel key 999
+ tunnel protection ipsec profile IPSEC_PROF
+!
+interface Ethernet0/0
+ description ISP-1-R1-e0/2
+ ip address 10.101.5.2 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nat outside
+ ip virtual-reassembly in
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/1
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/2
+ description Univer-R4-e0/3
+ ip address 10.200.5.1 255.255.255.248
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nat inside
+ ip virtual-reassembly in
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet0/3
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/0
+ description Univer-R2-e1/0
+ ip address 10.200.8.1 255.255.255.252
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nat inside
+ ip virtual-reassembly in
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/1
+ description Univer-R3-e0/1
+ ip address 10.200.9.1 255.255.255.248
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ ip nat inside
+ ip virtual-reassembly in
+ bfd interval 50 min_rx 50 multiplier 4
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/2
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+interface Ethernet1/3
+ no ip address
+ no ip redirects
+ no ip unreachables
+ no ip proxy-arp
+ shutdown
+ no cdp enable
+ no mop enabled
+!
+!
+router eigrp DMVPN
+ !
+ address-family ipv4 unicast autonomous-system 45010
+  !
+  topology base
+   distribute-list 75 out
+   redistribute bgp 45011 metric 100000 1 100 100 1200
+  exit-af-topology
+  network 172.16.0.0 0.0.0.255
+  eigrp router-id 172.16.0.3
+ exit-address-family
+!
+router bgp 45011
+ bgp router-id 10.200.1.1
+ bgp log-neighbor-changes
+ neighbor 10.101.5.1 remote-as 45001
+ neighbor 10.101.5.1 version 4
+ neighbor 10.101.5.1 fall-over bfd
+ neighbor 10.200.5.4 remote-as 45011
+ neighbor 10.200.5.4 version 4
+ neighbor 10.200.5.4 fall-over bfd
+ neighbor 10.200.8.2 remote-as 45011
+ neighbor 10.200.8.2 version 4
+ neighbor 10.200.8.2 fall-over bfd
+ neighbor 10.200.9.3 remote-as 45011
+ neighbor 10.200.9.3 version 4
+ neighbor 10.200.9.3 fall-over bfd
+ !
+ address-family ipv4
+  network 10.200.0.0 mask 255.255.0.0
+  redistribute connected
+  neighbor 10.101.5.1 activate
+  neighbor 10.101.5.1 soft-reconfiguration inbound
+  neighbor 10.101.5.1 prefix-list AS45001_OUT out
+  neighbor 10.200.5.4 activate
+  neighbor 10.200.5.4 next-hop-self
+  neighbor 10.200.5.4 default-originate
+  neighbor 10.200.5.4 soft-reconfiguration inbound
+  neighbor 10.200.5.4 prefix-list AS45011_OUT out
+  neighbor 10.200.8.2 activate
+  neighbor 10.200.8.2 next-hop-self
+  neighbor 10.200.8.2 soft-reconfiguration inbound
+  neighbor 10.200.9.3 activate
+  neighbor 10.200.9.3 next-hop-self
+  neighbor 10.200.9.3 default-originate
+  neighbor 10.200.9.3 soft-reconfiguration inbound
+  neighbor 10.200.9.3 prefix-list AS45011_OUT out
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source route-map ISP1 interface Ethernet0/0 overload
+ip route 10.200.0.0 255.255.0.0 Null0
+!
+!
+!
+ip prefix-list AS45001_OUT seq 5 permit 10.200.0.0/16
+!
+ip prefix-list AS45011_OUT seq 5 permit 0.0.0.0/0
+logging trap debugging
+logging origin-id hostname
+logging facility local2
+logging host 5.5.5.5
+!
+route-map ISP1 permit 10
+ match ip address 15
+ match interface Ethernet0/0
+!
+snmp-server community OtusLabRO RO
+!
+tacacs server OTUSaaa
+ address ipv4 5.5.5.5
+ key 7 032B6F3E351B204F652C20
+ timeout 5
+access-list 15 permit 192.168.0.0 0.0.255.255
+access-list 75 permit 192.168.2.0
+access-list 75 deny   any
+!
+!
+!
+control-plane
+!
+!
+!
+!
+!
+!
+!
+banner motd ^C LOGIN or LEAVE, ACCESS is DENIED!!! ^C
+!
+line con 0
+ exec-timeout 5 0
+ logging synchronous
+ transport output none
+line aux 0
+ transport output none
+line vty 0 4
+ transport input ssh
+!
+ntp authentication-key 1 md5 032B4F1E1521157C 7
+ntp authenticate
+ntp server 5.5.5.5
+!
+end
