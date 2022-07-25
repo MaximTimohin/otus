@@ -77,4 +77,4 @@ backup server для сетевого оборудования
 ```
 </details>
 
-  [Конфигурация устройства ISP-R1](/configs/DATA-R1.txt)
+  [Конфигурация устройства ISP-R1](./configs/DATA-R1.txt)
