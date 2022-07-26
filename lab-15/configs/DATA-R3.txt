@@ -1,7 +1,7 @@
-Current configuration : 11342 bytes
+Current configuration : 11453 bytes
 !
-! Last configuration change at 20:30:53 MSK Mon Jul 25 2022 by Max
-! NVRAM config last updated at 21:34:32 MSK Mon Jul 25 2022 by Max
+! Last configuration change at 12:51:38 MSK Tue Jul 26 2022 by Max
+! NVRAM config last updated at 12:51:39 MSK Tue Jul 26 2022 by Max
 !
 version 15.4
 no service pad
@@ -179,9 +179,7 @@ crypto pki certificate chain IPSECVPNTP53
   1407EEE4 6025FB8B E39A4B52 A98F39F5 5F0E0540 9E301D06 03551D0E 04160414
   07EEE460 25FB8BE3 9A4B52A9 8F39F55F 0E05409E 300D0609 2A864886 F70D0101
   04050003 82010100 234AFB87 53F72D84 D569106D 91F8A400 BA160418 CFC549A3
-  ED5A59C1 E0B182E1 A6DDB521 2BFB9130 748F731A 51083BA6 1D5FEF7B 922F22A4
-  9A265959 10A7F3D1 0C46DDEB E7ACBD30 795FB9FA 050CA397 85F3144F B5CC2300
-  E421DAA0 AEB70783 1DDB9206 A7E3C062 8A32F44B 5666CF86 1E6E2D0A 02F3F865
+  ED5A59C1 E0B182E1 02F3F865
   48CD08BA 78B91B76 16886B28 D8A4B7C8 83A09624 19F9D1B4 96FE85B7 9ED43B50
   9310688D 46181360 A7104B4D 7BA8AFD5 927D4C91 B87B3BB9 D7B80C4A 7799CD1B
   554818D4 35229EF6 9AA443CE 340DBA26 7F4CEBA4 CF5C724F 106CEAC4 181A605C
@@ -292,6 +290,7 @@ router eigrp DMVPN
  address-family ipv4 unicast autonomous-system 45010
   !
   topology base
+   distribute-list 75 in
   exit-af-topology
   network 172.16.0.0 0.0.0.255
   network 172.16.1.0 0.0.0.255
@@ -323,8 +322,7 @@ ip forward-protocol nd
 !
 ip http server
 no ip http secure-server
-ip route 10.107.104.0 255.255.255.0 172.16.0.5
-ip route 192.168.1.0 255.255.255.0 172.16.0.3
+ip route 192.168.2.0 255.255.255.0 172.16.0.3
 !
 !
 logging trap debugging
@@ -338,6 +336,9 @@ tacacs server OTUSaaa
  address ipv4 5.5.5.5
  key 7 032B6F3E351B204F652C20
  timeout 5
+access-list 75 permit 192.168.2.0 0.0.0.255
+access-list 75 permit 10.107.104.0 0.0.0.255
+access-list 75 permit 10.106.1.0 0.0.0.255
 access-list 2500 permit ip host 5.5.5.5 10.106.1.0 0.0.0.255
 access-list 2500 deny   ip any 10.106.1.0 0.0.0.255
 access-list 2500 permit ip any any

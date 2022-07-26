@@ -1,7 +1,7 @@
-Current configuration : 11124 bytes
+Current configuration : 11106 bytes
 !
-! Last configuration change at 20:20:53 MSK Mon Jul 25 2022 by Max
-! NVRAM config last updated at 21:38:14 MSK Mon Jul 25 2022 by Max
+! Last configuration change at 12:51:44 MSK Tue Jul 26 2022 by Max
+! NVRAM config last updated at 12:51:45 MSK Tue Jul 26 2022 by Max
 !
 version 15.4
 no service pad
@@ -304,7 +304,7 @@ router eigrp DMVPN
   !
   topology base
    distribute-list 75 out
-   redistribute bgp 45011 metric 100000 1 100 100 1200
+   redistribute bgp 45011 metric 1000 100 255 1 1500
   exit-af-topology
   network 172.16.0.0 0.0.0.255
   eigrp router-id 172.16.0.3
@@ -376,8 +376,7 @@ tacacs server OTUSaaa
  key 7 032B6F3E351B204F652C20
  timeout 5
 access-list 15 permit 192.168.0.0 0.0.255.255
-access-list 75 permit 192.168.2.0
-access-list 75 deny   any
+access-list 75 permit 192.168.2.0 0.0.0.255
 !
 !
 !
